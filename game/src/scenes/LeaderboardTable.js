@@ -17,11 +17,7 @@ export default class LeaderboardTable extends Phaser.Scene {
     this.height = this.scale.height;
     const leaderboard = new Leaderboard();
 
-    // if (this.player && this.score) {
-    //   this.leaderboard = leaderboard.postScore(this.player, this.score);
-    // } else {
-      this.leaderboard = leaderboard.getScores(this.game.config.web3);
-    // }
+    this.leaderboard = leaderboard.getScores(this.game.config.web3);
   }
 
   create() {
@@ -30,7 +26,7 @@ export default class LeaderboardTable extends Phaser.Scene {
       y: 50,
       text: 'LEADERBOARD',
       style: {
-        fontSize: '100px',
+        fontSize: '50px',
         fill: '#fff200',
         fontFamily: 'Arcadia, monospace',
       },
@@ -38,10 +34,10 @@ export default class LeaderboardTable extends Phaser.Scene {
 
     this.sub = this.make.text({
       x: this.width / 2,
-      y: title.y + 110,
+      y: title.y + 88,
       text: 'Rank       Player       Score',
       style: {
-        fontSize: '50px',
+        fontSize: '30px',
         fill: '#003fff',
         fontFamily: 'Arcadia, monospace',
       },
@@ -71,69 +67,59 @@ export default class LeaderboardTable extends Phaser.Scene {
           prevScore = scoreN;
         }
 
-        if (this.player && this.score) {
-          for (let i = 0; i <= result.length - 1; i += 1) {
-            const { user, score } = result[i];
+        this.make.text({
+          x: this.width / 2,
+          y: prevRank.y + 120,
+          text: `Your Score\n${this.score}`,
+          style: {
+            fontSize: '48px',
+            fill: '#ffffff',
+            fontFamily: 'Arcadia, monospace',
+            align: 'center',
+          },
+        }).setOrigin(0.5, 0.5);
+    
+        this.make.text({
+          x: this.width / 2,
+          y: prevRank.y + 240,
+          text: 'challenge with others(0.01 ETH fee)',
+          style: {
+            fontSize: '30px',
+            fill: '#ffffff',
+            fontFamily: 'Arcadia, monospace',
+          },
+        }).setOrigin(0.5, 0.5);
 
-            if (user === this.player && parseInt(score, 10) === this.score) {
-              this.text = this.make.text({
-                x: this.width / 5.7,
-                y: this.height - 100,
-                text: i + 1,
-                style: {
-                  fontSize: '60px',
-                  fill: '#ffffff',
-                  fontFamily: 'Arcadia, monospace',
-                },
-              }).setOrigin(0.5, 0.5);
+        this.make.text({
+          x: this.width / 2,
+          y: prevRank.y + 280,
+          text: 'Top players will earn RCR tokens every week!',
+          style: {
+            fontSize: '30px',
+            fill: '#ffffff',
+            fontFamily: 'Arcadia, monospace',
+          },
+        }).setOrigin(0.5, 0.5);
 
-              this.make.text({
-                x: this.width / 2 - 20,
-                y: this.height - 100,
-                text: user,
-                style: {
-                  fontSize: '60px',
-                  fill: '#ffffff',
-                  fontFamily: 'Arcadia, monospace',
-                },
-              }).setOrigin(0.5, 0.5);
+        this.playBtn = this.add.text(this.width / 2 - 120, prevRank.y + 340, 'Replay').setOrigin(0.5)
+        .setPadding(15)
+        .setStyle({ backgroundColor: '#fff200', fontSize: '24px', fill: '#111'})
+        .setInteractive({ useHandCursor: true })
+        .on('pointerdown', () => {})
+        .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
+        .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
 
-              this.make.text({
-                x: this.width - 235,
-                y: this.height - 100,
-                text: score,
-                style: {
-                  fontSize: '60px',
-                  fill: '#ffffff',
-                  fontFamily: 'Arcadia, monospace',
-                },
-              }).setOrigin(0.5, 0.5);
-            }
+        this.challengeBtn = this.add.text(this.width / 2 + 120, prevRank.y + 340, 'Challenge').setOrigin(0.5)
+        .setPadding(15)
+        .setStyle({ backgroundColor: '#fff200', fontSize: '24px', fill: '#111' })
+        .setInteractive({ useHandCursor: true })
+        .on('pointerdown', () => {})
+        .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
+        .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
 
-            if (this.text) {
-              break;
-            }
-          }
-        }
+
+
       });
-    });
-
-    this.make.text({
-      x: this.width / 2,
-      y: this.height - 30,
-      text: "[ Press 'ENTER' to continue... ]",
-      style: {
-        fontSize: '30px',
-        fill: '#505050',
-        fontFamily: 'Monogram, monospace',
-        align: 'justify',
-      },
-    }).setOrigin(0.5, 0.5);
-
-    const enter = this.input.keyboard.addKey('ENTER');
-    enter.on('down', () => {
-      this.cameras.main.fadeOut(1000, 0, 0, 0);
-      this.scene.start('credits', { song: this.song });
     });
   }
 

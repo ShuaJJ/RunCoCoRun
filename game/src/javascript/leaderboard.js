@@ -29,7 +29,7 @@ export default class Leaderboard {
 
   async postScore(player, score) {
     return new Promise((resolve, reject) => {
-      const entry = { user: player, score: String(score) };
+      ScoresContract.methods.updateScore().send()
     });
   }
 }

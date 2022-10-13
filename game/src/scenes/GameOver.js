@@ -53,7 +53,7 @@ export default class GameOver extends Phaser.Scene {
     });
 
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.scene.start('leaderboard-table', { score: this.score, song: this.ending });
+      this.scene.start('leaderboard-table', { score: this.score + this.kills * 10, song: this.ending });
     });
   }
 }
