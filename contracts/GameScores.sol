@@ -43,6 +43,10 @@ contract GameScores is Ownable, AccessControl {
         }
     }
 
+    function topScores() external view returns(address[3] memory, uint[3] memory) {
+        return (players, [scores[players[0]], scores[players[1]], scores[players[2]]]);
+    }
+
     // Owner of this contract can retrive the balance of this contract
     function retrive() external onlyOwner { 
         address owner = owner();

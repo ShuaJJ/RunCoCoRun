@@ -71,7 +71,6 @@ export default class Game extends Phaser.Scene {
     this.player.setGravityY(gameOptions.playerGravity);
 
     this.physics.add.collider(this.player, this.bg8, () => {
-      console.log('BBBBB');
       this.platformTouching = false;
       if (!this.player.anims.isPlaying && this.alive) {
         this.player.setTexture('player');

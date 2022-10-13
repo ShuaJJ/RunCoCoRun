@@ -17,11 +17,11 @@ export default class LeaderboardTable extends Phaser.Scene {
     this.height = this.scale.height;
     const leaderboard = new Leaderboard();
 
-    if (this.player && this.score) {
-      this.leaderboard = leaderboard.postScore(this.player, this.score);
-    } else {
-      this.leaderboard = leaderboard.getScores();
-    }
+    // if (this.player && this.score) {
+    //   this.leaderboard = leaderboard.postScore(this.player, this.score);
+    // } else {
+      this.leaderboard = leaderboard.getScores(this.game.config.web3);
+    // }
   }
 
   create() {
@@ -53,7 +53,7 @@ export default class LeaderboardTable extends Phaser.Scene {
         let prevName;
         let prevScore;
 
-        for (let i = 0; i <= 4; i += 1) {
+        for (let i = 0; i < result.length; i += 1) {
           const { user, score } = result[i];
 
           const rank = this.rankText(i + 1);
