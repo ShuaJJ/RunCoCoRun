@@ -11,13 +11,13 @@ export default class LeaderboardTable extends Phaser.Scene {
     this.song = data.song;
     this.player = this.game.config.myAddress;
   }
-
+  
   preload() {
     this.width = this.scale.width;
     this.height = this.scale.height;
     const leaderboard = new Leaderboard();
 
-    this.leaderboard = leaderboard.getScores(this.game.config.web3);
+    this.leaderboard = leaderboard.getScores(this.game.config.signer);
   }
 
   create() {
@@ -81,7 +81,7 @@ export default class LeaderboardTable extends Phaser.Scene {
     
         this.make.text({
           x: this.width / 2,
-          y: prevRank.y + 240,
+          y: prevRank.y + 220,
           text: 'challenge with others(0.01 ETH fee)',
           style: {
             fontSize: '30px',
@@ -92,7 +92,7 @@ export default class LeaderboardTable extends Phaser.Scene {
 
         this.make.text({
           x: this.width / 2,
-          y: prevRank.y + 280,
+          y: prevRank.y + 250,
           text: 'Top players will earn RCR tokens every week!',
           style: {
             fontSize: '30px',
@@ -101,21 +101,28 @@ export default class LeaderboardTable extends Phaser.Scene {
           },
         }).setOrigin(0.5, 0.5);
 
-        this.playBtn = this.add.text(this.width / 2 - 120, prevRank.y + 340, 'Replay').setOrigin(0.5)
+        this.playBtn = this.add.text(this.width / 2 - 80, prevRank.y + 340, 'Retry').setOrigin(0.5)
         .setPadding(15)
         .setStyle({ backgroundColor: '#fff200', fontSize: '24px', fill: '#111'})
         .setInteractive({ useHandCursor: true })
-        .on('pointerdown', () => {})
-        .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
-        .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
+        .on('pointerdown', () => {
+          this.song.stop();
+          this.cameras.main.fadeOut(2000, 255, 255, 255);
+          this.scene.start('title-screen');
+        })
+        .on('pointerover', () => this.playBtn.setStyle({ fill: '#f39c12' }))
+        .on('pointerout', () => this.playBtn.setStyle({ fill: '#111' }));
 
-        this.challengeBtn = this.add.text(this.width / 2 + 120, prevRank.y + 340, 'Challenge').setOrigin(0.5)
+        this.challengeBtn = this.add.text(this.width / 2 + 80, prevRank.y + 340, 'Challenge').setOrigin(0.5)
         .setPadding(15)
         .setStyle({ backgroundColor: '#fff200', fontSize: '24px', fill: '#111' })
         .setInteractive({ useHandCursor: true })
-        .on('pointerdown', () => {})
-        .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
-        .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
+        .on('pointerdown', () => {
+          const lb = new Leaderboard();
+          lb.postScore(this.game.config.signer, this.score);
+        })
+        .on('pointerover', () => this.challengeBtn.setStyle({ fill: '#f39c12' }))
+        .on('pointerout', () => this.challengeBtn.setStyle({ fill: '#111' }));
 
 
 

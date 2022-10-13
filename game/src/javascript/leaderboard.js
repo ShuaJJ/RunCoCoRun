@@ -2,16 +2,17 @@ require('regenerator-runtime/runtime');
 import GameScores from "../contracts/GameScores.json";
 import addresses from "../contracts/contract-address.json";
 import shorten from "./shorten";
+var ethers = require('ethers')
 
 export default class Leaderboard {
-  async getScores(web3) {
+  async getScores(signer) {
 
-    const ScoresContract = new web3.eth.Contract(GameScores["abi"], addresses["Score"]);
+    const ScoresContract = new ethers.Contract(addresses["Score"], GameScores["abi"], signer);
 
     return new Promise((resolve, reject) => {
       this.scoreArray = [];
 
-      ScoresContract.methods.topScores().call().then((data) => {
+      ScoresContract.topScores().then((data) => {
         let addresses = data[0];
         let scores = data[1];
         var res = [];
@@ -27,9 +28,17 @@ export default class Leaderboard {
     });
   }
 
-  async postScore(player, score) {
+  async postScore(signer, score) {
+    const ScoresContract = new ethers.Contract(addresses["Score"], GameScores["abi"], signer);
     return new Promise((resolve, reject) => {
-      ScoresContract.methods.updateScore().send()
+      const options = {value: ethers.utils.parseEther("0.01")}
+      ScoresContract.updateScore(score, options).then((receipt) => {
+        alert('Succeed');
+        resolve(receipt);
+      }).catch((e) => {
+        console.log("Error:", e);
+        alert("Failed! Please check your balance!");
+      });
     });
   }
 }

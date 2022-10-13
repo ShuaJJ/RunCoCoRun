@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import createAligned from '../javascript/createAligned';
-import Web3 from "web3";
 import Web3Modal from "web3modal";
+var ethers = require('ethers')
 
 export default class TitleScene extends Phaser.Scene {
   constructor() {
@@ -115,12 +115,13 @@ export default class TitleScene extends Phaser.Scene {
   }
 
   web3login() {
-    this.web3Modal.connect().then((provider) => {
-      const web3 = new Web3(provider);
-      this.game.config.web3 = web3;
+    this.web3Modal.connect().then((instance) => {
+      const provider = new ethers.providers.Web3Provider(instance);
+      const signer = provider.getSigner();
+      this.game.config.provider = provider;
+      this.game.config.signer = signer;
       this.subscribeProvider(provider);
-      web3.eth.getAccounts().then((accounts) => {
-        const addr = accounts[0];
+      signer.getAddress().then((addr) => {
         this.game.config.myAddress = addr;
       });
     });

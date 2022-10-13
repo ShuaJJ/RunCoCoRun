@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import './css/main.css';
 import Game from './scenes/Game';
 import Boot from './scenes/Boot';
@@ -33,6 +34,15 @@ window.onload = () => {
     },
     // eslint-disable-next-line max-len
     scene: [Boot, PreLoader, titleScene, cocoSelectScene, CoCoLoad, instructions, Game, gameover, leaderboardScene, leaderboardTable, credit, playAgain],
+    plugins: {
+      scene: [{
+          key: 'rexUI',
+          plugin: UIPlugin,
+          mapping: 'rexUI'
+      },
+      // ...
+      ]
+    },
   };
 
   // eslint-disable-next-line no-unused-vars
