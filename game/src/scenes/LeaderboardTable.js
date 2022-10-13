@@ -82,22 +82,20 @@ export default class LeaderboardTable extends Phaser.Scene {
         this.make.text({
           x: this.width / 2,
           y: prevRank.y + 220,
-          text: 'challenge with others(0.01 ETH fee)',
+          text: 'Challenge with others(0.01ETH fee)',
           style: {
             fontSize: '30px',
             fill: '#ffffff',
-            fontFamily: 'Arcadia, monospace',
           },
         }).setOrigin(0.5, 0.5);
 
         this.make.text({
           x: this.width / 2,
-          y: prevRank.y + 250,
-          text: 'Top players will earn RCR tokens every week!',
+          y: prevRank.y + 260,
+          text: 'Top 3 players will earn RCR tokens every week!',
           style: {
             fontSize: '30px',
             fill: '#ffffff',
-            fontFamily: 'Arcadia, monospace',
           },
         }).setOrigin(0.5, 0.5);
 

@@ -4,7 +4,7 @@ const gameConfig = {
 
   dropForce: 150,
 
-  platformSpeed: 500,
+  platformSpeed: 700,
 
   spawnRange: [80, 300],
 
@@ -28,7 +28,7 @@ const gameConfig = {
 
   scoreSpeed: 500,
 
-  skeletonSpawnRate: 6000,
+  skeletonSpawnRate: 600,
 
   spikeWidth: 56,
 
@@ -36,7 +36,7 @@ const gameConfig = {
 
   spikePercent: 25,
 
-  spikeSpawnRate: 10000,
+  spikeSpawnRate: 1000,
 };
 
 module.exports = gameConfig;
